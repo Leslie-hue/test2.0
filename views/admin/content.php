@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenu du site - Administration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.css">
     <style>
         * {
             margin: 0;
@@ -25,6 +24,7 @@
             min-height: 100vh;
         }
 
+        /* Sidebar */
         .sidebar {
             background: linear-gradient(135deg, #1f2937, #111827);
             color: white;
@@ -71,6 +71,7 @@
             width: 20px;
         }
 
+        /* Main Content */
         .main-content {
             padding: 2rem;
             max-height: 100vh;
@@ -92,119 +93,47 @@
             font-size: 0.9rem;
         }
 
-        .tabs {
-            display: flex;
+        .section-card {
             background: white;
-            border-radius: 15px 15px 0 0;
+            border-radius: 15px;
+            padding: 2rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 0;
-            overflow-x: auto;
+            margin-bottom: 2rem;
         }
 
-        .tab-button {
-            flex: 1;
-            min-width: 150px;
-            padding: 1rem 1.5rem;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-weight: 600;
-            color: #6b7280;
-            transition: all 0.3s ease;
-            border-radius: 15px 15px 0 0;
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
-            white-space: nowrap;
-        }
-
-        .tab-button.active {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-
-        .tab-button:not(.active):hover {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .tab-content {
-            display: none;
-            background: white;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            padding: 2rem;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         .form-grid {
             display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-        }
-
-        .form-section {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #3b82f6;
-            position: relative;
-        }
-
-        .section-title {
-            font-size: 1.2rem;
-            color: #1f2937;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .section-title-left {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-mini {
-            padding: 0.4rem 0.6rem;
-            font-size: 0.8rem;
-            border-radius: 6px;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group-inline {
-            display: flex;
-            gap: 1rem;
-            align-items: end;
-        }
-
-        .form-label {
+        .form-group label {
             display: block;
-            font-weight: 600;
-            color: #374151;
+            font-weight: 500;
             margin-bottom: 0.5rem;
+            color: #1f2937;
         }
 
         .form-control {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
         }
 
         .form-control:focus {
@@ -213,30 +142,9 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .form-control-lg {
-            padding: 1rem 1.25rem;
-            font-size: 1.1rem;
-        }
-
-        .textarea-lg {
-            min-height: 200px;
+        textarea.form-control {
+            min-height: 100px;
             resize: vertical;
-        }
-
-        .color-picker-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .color-preview {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            border: 2px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .btn {
@@ -244,13 +152,13 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
         }
 
         .btn-primary {
@@ -258,20 +166,19 @@
             color: white;
         }
 
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
         .btn-success {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: #10b981;
             color: white;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            background: #ef4444;
             color: white;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #e5e7eb;
-            color: #374151;
         }
 
         .btn:hover {
@@ -279,1174 +186,898 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
         .alert-success {
             background: #d1fae5;
             color: #065f46;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            border: 1px solid #bbf7d0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .alert-error {
             background: #fee2e2;
             color: #991b1b;
-            padding: 1rem;
-            border-radius: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
             margin-bottom: 2rem;
-            border: 1px solid #fecaca;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .services-grid, .team-grid, .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
         }
 
-        .service-card, .team-card, .news-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border: 2px solid #f3f4f6;
-            position: relative;
+        .tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .team-image, .news-image {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            object-fit: cover;
-            margin-bottom: 1rem;
-        }
-
-        .image-preview {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            object-fit: cover;
-            margin-bottom: 1rem;
+        .tab-content {
             display: none;
         }
 
-        .image-preview.show {
+        .tab-content.active {
             display: block;
         }
 
-        .rich-editor {
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
+        .item-list {
+            list-style: none;
         }
 
-        .editor-toolbar {
+        .item-card {
             background: #f8fafc;
-            padding: 0.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .editor-btn {
-            padding: 0.5rem;
-            border: none;
-            background: transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .editor-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .editor-btn.active {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .editor-content {
-            min-height: 300px;
-            padding: 1rem;
-            outline: none;
-            line-height: 1.6;
-        }
-
-        .editor-content:focus {
-            background: #f9fafb;
-        }
-
-        .sortable-item {
-            cursor: move;
-        }
-
-        .sortable-item:hover {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .drag-handle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #f3f4f6;
-            border-radius: 8px;
-            padding: 0.5rem;
-            cursor: move;
-            color: #6b7280;
-            font-size: 1.2rem;
-            display: none;
-        }
-
-        .content-manager {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: #f0f9ff;
-            border-radius: 15px;
-            border: 1px solid #bae6fd;
-        }
-
-        .content-item {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .content-path {
-            font-family: monospace;
-            background: #f3f4f6;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+        .item-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .add-service-form, .add-team-form, .add-news-form {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
+        .item-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: between;
             align-items: center;
             margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
         }
 
-        .order-indicator {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            background: #3b82f6;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        .item-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
             font-size: 0.8rem;
-            display: none;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .logout-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
         }
 
         @media (max-width: 768px) {
             .admin-layout {
                 grid-template-columns: 1fr;
             }
-
+            
             .sidebar {
                 display: none;
             }
-
+            
             .main-content {
                 padding: 1rem;
             }
-
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .tabs {
-                flex-direction: column;
+                flex-wrap: wrap;
             }
-
-            .tab-button {
-                border-radius: 0;
-                min-width: auto;
-            }
-
-            .services-grid, .team-grid, .news-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
+            
+            .tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="admin-layout">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2><?php echo htmlspecialchars(SITE_NAME); ?></h2>
+                <h2><?php echo defined('SITE_NAME') ? SITE_NAME : 'Cabinet Excellence'; ?></h2>
                 <p>Administration</p>
             </div>
             <ul class="sidebar-nav">
-                <li><a href="/admin/dashboard"><i class="fas fa-chart-line"></i>Tableau de bord</a></li>
-                <li><a href="/admin/content" class="active"><i class="fas fa-edit"></i>Contenu du site</a></li>
-                <li><a href="/admin/contacts"><i class="fas fa-envelope"></i>Messages</a></li>
-                <li><a href="/admin/settings"><i class="fas fa-cog"></i>Paramètres</a></li>
-                <li><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i>Voir le site</a></li>
+                <li><a href="/admin/dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    Tableau de bord
+                </a></li>
+                <li><a href="/admin/content" class="active">
+                    <i class="fas fa-edit"></i>
+                    Contenu du site
+                </a></li>
+                <li><a href="/admin/contacts">
+                    <i class="fas fa-envelope"></i>
+                    Messages
+                </a></li>
+                <li><a href="/admin/schedule">
+                    <i class="fas fa-calendar-alt"></i>
+                    Planning
+                </a></li>
+                <li><a href="/admin/settings">
+                    <i class="fas fa-cog"></i>
+                    Paramètres
+                </a></li>
+                <li><a href="/" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                    Voir le site
+                </a></li>
             </ul>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
             <div class="page-header">
                 <h1>Contenu du site</h1>
                 <div class="breadcrumb">Administration / Contenu du site</div>
             </div>
 
-            <?php if (!empty($success)): ?>
-                <div class="alert-success">
-                    <i class="fas fa-check-circle"></i>
-                    <?php echo htmlspecialchars($success); ?>
+            <!-- Flash Message -->
+            <?php if (isset($_SESSION['flash_message'])): ?>
+                <div class="alert alert-<?php echo $_SESSION['flash_message']['success'] ? 'success' : 'error'; ?>">
+                    <?php echo htmlspecialchars($_SESSION['flash_message']['message']); ?>
                 </div>
-            <?php endif; ?>
-            <?php if (!empty($error)): ?>
-                <div class="alert-error">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <?php echo htmlspecialchars($error); ?>
-                </div>
+                <?php unset($_SESSION['flash_message']); ?>
             <?php endif; ?>
 
+            <!-- Tabs -->
             <div class="tabs">
-                <button class="tab-button active" onclick="openTab(event, 'general')"><i class="fas fa-home"></i>Contenu général</button>
-                <button class="tab-button" onclick="openTab(event, 'content-manager')"><i class="fas fa-cogs"></i>Gestionnaire</button>
-                <button class="tab-button" onclick="openTab(event, 'services')"><i class="fas fa-gavel"></i>Services</button>
-                <button class="tab-button" onclick="openTab(event, 'team')"><i class="fas fa-users"></i>Équipe</button>
-                <button class="tab-button" onclick="openTab(event, 'news')"><i class="fas fa-newspaper"></i>Actualités</button>
-                <button class="tab-button" onclick="openTab(event, 'events')"><i class="fas fa-calendar"></i>Événements</button>
+                <button class="tab active" onclick="showTab('content')">Contenu textuel</button>
+                <button class="tab" onclick="showTab('services')">Services</button>
+                <button class="tab" onclick="showTab('team')">Équipe</button>
+                <button class="tab" onclick="showTab('news')">Actualités</button>
+                <button class="tab" onclick="showTab('events')">Événements</button>
             </div>
 
-            <!-- Contenu général -->
-            <div id="general" class="tab-content active">
-                <form method="POST" id="general-content-form">
-                    <input type="hidden" name="action" value="update_content">
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                    <div class="form-grid">
-                        <?php foreach (['hero' => 'Accueil', 'about' => 'À propos', 'services' => 'Services', 'team' => 'Équipe', 'contact' => 'Contact'] as $section => $label): ?>
-                            <div class="form-section">
-                                <h3 class="section-title">
-                                    <span class="section-title-left">
-                                        <i class="fas fa-<?php echo $section === 'hero' ? 'star' : ($section === 'about' ? 'info-circle' : ($section === 'services' ? 'gavel' : ($section === 'team' ? 'users' : 'envelope'))); ?>"></i>
-                                        Section <?php echo htmlspecialchars($label); ?>
-                                    </span>
-                                </h3>
-                                <div class="form-group">
-                                    <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                    <input type="text" name="content[<?php echo htmlspecialchars($section); ?>][title]" class="form-control form-control-lg" value="<?php echo htmlspecialchars($content[$section]['title'] ?? ''); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Sous-titre<span class="text-red-500">*</span></label>
-                                    <textarea name="content[<?php echo htmlspecialchars($section); ?>][subtitle]" class="form-control textarea-lg" rows="3" required><?php echo htmlspecialchars($content[$section]['subtitle'] ?? ''); ?></textarea>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                        <div style="text-align: center; margin-top: 2rem;">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>Sauvegarder le contenu général</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Gestionnaire de contenu avancé -->
-            <div id="content-manager" class="tab-content">
-                <div class="content-manager">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-cogs"></i>Gestionnaire de contenu avancé</h3>
-                    <p style="color: #6b7280; margin-bottom: 1.5rem;">
-                        Gérez tous les éléments de contenu de votre site. Vous pouvez ajouter de nouvelles sections, modifier ou supprimer du contenu existant.
-                    </p>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-plus"></i>Ajouter du nouveau contenu</h4>
-                        <form method="POST" id="add-content-form">
-                            <input type="hidden" name="action" value="add_content_section">
-                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Section<span class="text-red-500">*</span></label>
-                                    <select name="new_section" class="form-control" onchange="toggleCustomSection(this)" required>
-                                        <option value="">Sélectionner une section</option>
-                                        <option value="hero">Hero (Accueil)</option>
-                                        <option value="about">À propos</option>
-                                        <option value="services">Services</option>
-                                        <option value="team">Équipe</option>
-                                        <option value="contact">Contact</option>
-                                        <option value="footer">Footer</option>
-                                        <option value="custom">Nouvelle section personnalisée</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="customSectionGroup" style="display: none;">
-                                    <label class="form-label">Nom de la section personnalisée<span class="text-red-500">*</span></label>
-                                    <input type="text" id="customSectionInput" class="form-control" placeholder="ex: testimonials, features">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Clé<span class="text-red-500">*</span></label>
-                                    <input type="text" name="new_key" class="form-control" placeholder="ex: title, subtitle, description" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Valeur</label>
-                                    <textarea name="new_value" class="form-control textarea-lg" rows="3" placeholder="Contenu à afficher"></textarea>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i>Ajouter ce contenu</button>
-                        </form>
-                    </div>
-
-                    <div style="background: white; padding: 1.5rem; border-radius: 10px;">
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-list"></i>Contenu existant</h4>
-                        <?php if (!empty($content)): ?>
-                            <?php foreach ($content as $section => $keys): ?>
-                                <div style="margin-bottom: 1.5rem;">
-                                    <h5 style="color: #3b82f6; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-folder"></i><?php echo ucfirst(htmlspecialchars($section)); ?>
-                                    </h5>
-                                    <?php foreach ($keys as $key => $value): ?>
-                                        <div class="content-item">
-                                            <div>
-                                                <div class="content-path"><?php echo htmlspecialchars($section); ?>.<?php echo htmlspecialchars($key); ?></div>
-                                                <div style="margin-top: 0.5rem; color: #6b7280; font-size: 0.9rem;">
-                                                    <?php echo strlen($value) > 100 ? substr(htmlspecialchars($value), 0, 100) . '...' : htmlspecialchars($value); ?>
-                                                </div>
-                                            </div>
-                                            <div style="display: flex; gap: 0.5rem;">
-                                                <button type="button" class="btn btn-mini btn-outline" onclick="editContent('<?php echo htmlspecialchars($section); ?>', '<?php echo htmlspecialchars($key); ?>', '<?php echo htmlspecialchars($value, ENT_QUOTES); ?>')">
-                                                    <i class="fas fa-edit"></i>Modifier
-                                                </button>
-                                                <form method="POST" style="display: inline;" onsubmit="return confirm('Supprimer ce contenu ?');">
-                                                    <input type="hidden" name="action" value="delete_content">
-                                                    <input type="hidden" name="content_section" value="<?php echo htmlspecialchars($section); ?>">
-                                                    <input type="hidden" name="content_key" value="<?php echo htmlspecialchars($key); ?>">
-                                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                                    <button type="submit" class="btn btn-mini btn-danger"><i class="fas fa-trash"></i></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p style="color: #6b7280; text-align: center; padding: 2rem;">
-                                Aucun contenu trouvé. Commencez par ajouter du nouveau contenu ci-dessus.
-                            </p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Services -->
-            <div id="services" class="tab-content">
-                <div class="add-service-form">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-plus"></i>Ajouter un nouveau service</h3>
-                    <form method="POST" id="add-service-form" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="add_service">
+            <!-- Content Tab -->
+            <div id="content-tab" class="tab-content active">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-edit"></i>
+                        Modifier le contenu textuel
+                    </h2>
+                    <form action="/admin/content" method="POST">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Titre du service<span class="text-red-500">*</span></label>
-                                <input type="text" name="title" class="form-control" required placeholder="ex: Droit des Affaires">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Icône (Font Awesome)<span class="text-red-500">*</span></label>
-                                <input type="text" name="icon" class="form-control" value="fas fa-gavel" placeholder="fas fa-gavel" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Couleur<span class="text-red-500">*</span></label>
-                                <div class="color-picker-group">
-                                    <input type="color" name="color" class="form-control" value="#3b82f6" onchange="updateAddColorPreview(this)" required>
-                                    <div class="color-preview" id="add_color_preview" style="background: #3b82f6;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Description courte<span class="text-red-500">*</span></label>
-                                <textarea name="description" class="form-control textarea-lg" rows="3" required placeholder="Description qui apparaîtra sur la page d'accueil"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Contenu détaillé<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                            <div class="rich-editor">
-                                <div class="editor-toolbar">
-                                    <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                </div>
-                                <div class="editor-content" contenteditable="true" id="newServiceContent"></div>
-                            </div>
-                            <input type="hidden" name="detailed_content" id="new_detailed_content">
-                        </div>
-                        <button type="submit" class="btn btn-success" onclick="saveNewEditorContent('service')"><i class="fas fa-plus"></i>Ajouter le service</button>
-                    </form>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3>Services existants</h3>
-                    <button class="btn btn-outline" onclick="toggleReorderMode('services')"><i class="fas fa-sort"></i>Mode réorganisation</button>
-                </div>
-
-                <div class="services-grid" id="servicesGrid">
-                    <?php foreach ($services as $index => $service): ?>
-                        <div class="service-card sortable-item" data-id="<?php echo htmlspecialchars($service['id']); ?>">
-                            <div class="order-indicator"><?php echo $index + 1; ?></div>
-                            <div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>
-                            <form method="POST" id="service-form-<?php echo htmlspecialchars($service['id']); ?>" enctype="multipart/form-data">
-                                <input type="hidden" name="action" value="update_service">
-                                <input type="hidden" name="service_id" value="<?php echo htmlspecialchars($service['id']); ?>">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                <div class="card-header">
-                                    <div class="service-icon" style="background: <?php echo htmlspecialchars($service['color']); ?>;">
-                                        <i class="<?php echo htmlspecialchars($service['icon']); ?>"></i>
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <h4><?php echo htmlspecialchars($service['title']); ?></h4>
-                                        <small style="color: #6b7280;">ID: <?php echo htmlspecialchars($service['id']); ?></small>
-                                    </div>
-                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Supprimer ce service ?');">
-                                        <input type="hidden" name="action" value="delete_service">
-                                        <input type="hidden" name="service_id" value="<?php echo htmlspecialchars($service['id']); ?>">
-                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                        <button type="submit" class="btn btn-mini btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                                <?php if (!empty($service['image_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars($service['image_path']); ?>" alt="<?php echo htmlspecialchars($service['title']); ?>" class="team-image">
-                                <?php endif; ?>
-                                <img id="preview_<?php echo htmlspecialchars($service['id']); ?>" class="image-preview" alt="Aperçu de la nouvelle image">
-                                <div class="form-group">
-                                    <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                    <input type="text" name="title" class="form-control" value="<?php echo htmlspecialchars($service['title']); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description courte<span class="text-red-500">*</span></label>
-                                    <textarea name="description" class="form-control textarea-lg" rows="3" required><?php echo htmlspecialchars($service['description']); ?></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Contenu détaillé<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                                    <div class="rich-editor">
-                                        <div class="editor-toolbar">
-                                            <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                            <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                        </div>
-                                        <div class="editor-content" contenteditable="true" data-service-id="<?php echo htmlspecialchars($service['id']); ?>">
-                                            <?php echo !empty($service['detailed_content']) ? $service['detailed_content'] : '<p>Contenu détaillé à compléter...</p>'; ?>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="detailed_content" id="detailed_content_<?php echo htmlspecialchars($service['id']); ?>">
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label">Icône<span class="text-red-500">*</span></label>
-                                        <input type="text" name="icon" class="form-control" value="<?php echo htmlspecialchars($service['icon']); ?>" required placeholder="fas fa-gavel">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Couleur<span class="text-red-500">*</span></label>
-                                        <div class="color-picker-group">
-                                            <input type="color" name="color" class="form-control" value="<?php echo htmlspecialchars($service['color']); ?>" onchange="updateColorPreview(this, <?php echo htmlspecialchars($service['id']); ?>)" required>
-                                            <div class="color-preview" id="color_preview_<?php echo htmlspecialchars($service['id']); ?>" style="background: <?php echo htmlspecialchars($service['color']); ?>;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success" onclick="saveEditorContent(<?php echo htmlspecialchars($service['id']); ?>, 'service')"><i class="fas fa-save"></i>Sauvegarder</button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-        <!-- Équipe -->
-        <div id="team" class="tab-content">
-                <div class="add-team-form">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-user-plus"></i>Ajouter un nouveau membre</h3>
-                    <form method="POST" id="add-team-form" enctype="multipart/form-data" autocomplete="off">
-                        <input type="hidden" name="action" value="add_team">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Nom<span class="text-red-500">*</span></label>
-                                <input type="text" name="name" class="form-control" required autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Poste<span class="text-red-500">*</span></label>
-                                <input type="text" name="position" class="form-control" required autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Description<span class="text-red-500">*</span></label>
-                            <textarea name="description" class="form-control textarea-lg" required autocomplete="off"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                            <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'new_team_preview')">
-                            <img id="new_team_preview" class="image-preview" alt="Aperçu de l'image">
-                        </div>
-                        <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i>Ajouter le membre</button>
-                    </form>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3>Équipe existante</h3>
-                    <button class="btn btn-outline" onclick="toggleReorderMode('team')"><i class="fas fa-sort"></i>Mode réorganisation</button>
-                </div>
-
-                <div class="team-grid" id="teamGrid">
-                    <?php foreach ($team as $index => $member): ?>
-                        <div class="team-card sortable-item" data-id="<?php echo htmlspecialchars($member['id']); ?>">
-                            <div class="order-indicator"><?php echo $index + 1; ?></div>
-                            <div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>
-                            <form method="POST" id="team-form-<?php echo htmlspecialchars($member['id']); ?>" enctype="multipart/form-data">
-                                <input type="hidden" name="action" value="update_team">
-                                <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($member['id']); ?>">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                    <h4><?php echo htmlspecialchars($member['name']); ?></h4>
-                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce membre ?');">
-                                        <input type="hidden" name="action" value="delete_team">
-                                        <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($member['id']); ?>">
-                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                        <button type="submit" class="btn btn-mini btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                                <img src="<?php echo htmlspecialchars($member['image_path']); ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" class="team-image">
-                                <img id="preview_<?php echo htmlspecialchars($member['id']); ?>" class="image-preview" alt="Aperçu de la nouvelle image">
-                                <div class="form-group">
-                                    <label class="form-label">Nom<span class="text-red-500">*</span></label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($member['name']); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Poste<span class="text-red-500">*</span></label>
-                                    <input type="text" name="position" class="form-control" value="<?php echo htmlspecialchars($member['position']); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description<span class="text-red-500">*</span></label>
-                                    <textarea name="description" class="form-control textarea-lg" required><?php echo htmlspecialchars($member['description']); ?></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Nouvelle image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                                    <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'preview_<?php echo htmlspecialchars($member['id']); ?>')">
-                                </div>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>Sauvegarder</button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <!-- Actualités -->
-            <div id="news" class="tab-content">
-                <div class="add-news-form">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-newspaper"></i>Ajouter une actualité</h3>
-                    <form method="POST" id="add-news-form" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="add_news">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                <input type="text" name="title" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Date de publication<span class="text-red-500">*</span></label>
-                                <input type="datetime-local" name="publish_date" class="form-control" required value="<?php echo date('Y-m-d\TH:i'); ?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Contenu<span class="text-red-500">*</span></label>
-                            <div class="rich-editor">
-                                <div class="editor-toolbar">
-                                    <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                </div>
-                                <div class="editor-content" contenteditable="true" id="newNewsContent"></div>
-                            </div>
-                            <input type="hidden" name="content" id="new_news_content">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                            <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'new_news_preview')">
-                            <img id="new_news_preview" class="image-preview" alt="Aperçu de l'image">
-                        </div>
-                        <button type="submit" class="btn btn-success" onclick="saveNewEditorContent('news')"><i class="fas fa-plus"></i>Ajouter l'actualité</button>
-                    </form>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3>Actualités existantes</h3>
-                    <button class="btn btn-outline" onclick="toggleReorderMode('news')"><i class="fas fa-sort"></i>Mode réorganisation</button>
-                </div>
-
-                <div class="news-grid" id="newsGrid">
-                    <?php foreach ($news as $index => $article): ?>
-                        <div class="news-card sortable-item" data-id="<?php echo htmlspecialchars($article['id']); ?>">
-                            <div class="order-indicator"><?php echo $index + 1; ?></div>
-                            <div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>
-                            <form method="POST" id="news-form-<?php echo htmlspecialchars($article['id']); ?>" enctype="multipart/form-data">
-                                <input type="hidden" name="action" value="update_news">
-                                <input type="hidden" name="news_id" value="<?php echo htmlspecialchars($article['id']); ?>">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                    <h4><?php echo htmlspecialchars($article['title']); ?></h4>
-                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Supprimer cette actualité ?');">
-                                        <input type="hidden" name="action" value="delete_news">
-                                        <input type="hidden" name="news_id" value="<?php echo htmlspecialchars($article['id']); ?>">
-                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                        <button type="submit" class="btn btn-mini btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                                <?php if (!empty($article['image_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars($article['image_path']); ?>" alt="<?php echo htmlspecialchars($article['title']); ?>" class="news-image">
-                                <?php endif; ?>
-                                <img id="preview_<?php echo htmlspecialchars($article['id']); ?>" class="image-preview" alt="Aperçu de la nouvelle image">
-                                <div class="form-group">
-                                    <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                    <input type="text" name="title" class="form-control" value="<?php echo htmlspecialchars($article['title']); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Date de publication<span class="text-red-500">*</span></label>
-                                    <input type="datetime-local" name="publish_date" class="form-control" value="<?php echo date('Y-m-d\TH:i', strtotime($article['publish_date'])); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Contenu<span class="text-red-500">*</span></label>
-                                    <div class="rich-editor">
-                                        <div class="editor-toolbar">
-                                            <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                            <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                        </div>
-                                        <div class="editor-content" contenteditable="true" data-news-id="<?php echo htmlspecialchars($article['id']); ?>">
-                                            <?php echo !empty($article['content']) ? $article['content'] : '<p>Contenu à compléter...</p>'; ?>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="content" id="news_content_<?php echo htmlspecialchars($article['id']); ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Nouvelle image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                                    <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'preview_<?php echo htmlspecialchars($article['id']); ?>')">
-                                </div>
-                                <button type="submit" class="btn btn-success" onclick="saveEditorContent(<?php echo htmlspecialchars($article['id']); ?>, 'news')"><i class="fas fa-save"></i>Sauvegarder</button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <!-- Événements -->
-            <div id="events" class="tab-content">
-                <div class="add-news-form">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-calendar"></i>Ajouter un événement</h3>
-                    <form method="POST" id="add-event-form" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="add_event">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                <input type="text" name="title" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Date de l'événement<span class="text-red-500">*</span></label>
-                                <input type="datetime-local" name="event_date" class="form-control" required value="<?php echo date('Y-m-d\TH:i'); ?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Contenu<span class="text-red-500">*</span></label>
-                            <div class="rich-editor">
-                                <div class="editor-toolbar">
-                                    <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                    <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                </div>
-                                <div class="editor-content" contenteditable="true" id="newEventContent"></div>
-                            </div>
-                            <input type="hidden" name="content" id="new_event_content">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                            <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'new_event_preview')">
-                            <img id="new_event_preview" class="image-preview" alt="Aperçu de l'image">
-                        </div>
-                        <button type="submit" class="btn btn-success" onclick="saveNewEditorContent('event')"><i class="fas fa-plus"></i>Ajouter l'événement</button>
-                    </form>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h3>Événements existants</h3>
-                    <button class="btn btn-outline" onclick="toggleReorderMode('events')"><i class="fas fa-sort"></i>Mode réorganisation</button>
-                </div>
-
-                <div class="news-grid" id="eventsGrid">
-                    <?php foreach ($events as $index => $event): ?>
-                        <div class="news-card sortable-item" data-id="<?php echo htmlspecialchars($event['id']); ?>">
-                            <div class="order-indicator"><?php echo $index + 1; ?></div>
-                            <div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>
-                            <form method="POST" id="event-form-<?php echo htmlspecialchars($event['id']); ?>" enctype="multipart/form-data">
-                                <input type="hidden" name="action" value="update_event">
-                                <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['id']); ?>">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                    <h4><?php echo htmlspecialchars($event['title']); ?></h4>
-                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Supprimer cet événement ?');">
-                                        <input type="hidden" name="action" value="delete_event">
-                                        <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['id']); ?>">
-                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
-                                        <button type="submit" class="btn btn-mini btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                                <?php if (!empty($event['image_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars($event['image_path']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>" class="news-image">
-                                <?php endif; ?>
-                                <img id="preview_<?php echo htmlspecialchars($event['id']); ?>" class="image-preview" alt="Aperçu de la nouvelle image">
-                                <div class="form-group">
-                                    <label class="form-label">Titre<span class="text-red-500">*</span></label>
-                                    <input type="text" name="title" class="form-control" value="<?php echo htmlspecialchars($event['title']); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Date de l'événement<span class="text-red-500">*</span></label>
-                                    <input type="datetime-local" name="event_date" class="form-control" value="<?php echo date('Y-m-d\TH:i', strtotime($event['event_date'])); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Contenu<span class="text-red-500">*</span></label>
-                                    <div class="rich-editor">
-                                        <div class="editor-toolbar">
-                                            <button type="button" class="editor-btn" onclick="formatText('bold')" title="Gras"><i class="fas fa-bold"></i></button>
-                                            <button type="button" class="editor-btn" onclick="formatText('italic')" title="Italique"><i class="fas fa-italic"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertList('ul')" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
-                                            <button type="button" class="editor-btn" onclick="insertHeading()" title="Titre"><i class="fas fa-heading"></i></button>
-                                        </div>
-                                        <div class="editor-content" contenteditable="true" data-event-id="<?php echo htmlspecialchars($event['id']); ?>">
-                                            <?php echo !empty($event['content']) ? $event['content'] : '<p>Contenu à compléter...</p>'; ?>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="content" id="event_content_<?php echo htmlspecialchars($event['id']); ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Nouvelle image (JPG, PNG, max 5MB)<span class="text-gray-500 text-sm"> (optionnel)</span></label>
-                                    <input type="file" name="image" class="form-control" accept="image/jpeg,image/png" onchange="previewImage(this, 'preview_<?php echo htmlspecialchars($event['id']); ?>')">
-                                </div>
-                                <button type="submit" class="btn btn-success" onclick="saveEditorContent(<?php echo htmlspecialchars($event['id']); ?>, 'event')"><i class="fas fa-save"></i>Sauvegarder</button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <!-- Modal d'édition de contenu -->
-            <div id="editModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Modifier le contenu</h3>
-                        <button class="modal-close" onclick="closeEditModal()">&times;</button>
-                    </div>
-                    <form method="POST" id="editForm">
                         <input type="hidden" name="action" value="update_content">
-                        <input type="hidden" id="editSection" name="content_section">
-                        <input type="hidden" id="editKey" name="content_key">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                        
+                        <!-- Hero Section -->
+                        <h3>Section Hero</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="hero_title">Titre principal</label>
+                                <input type="text" class="form-control" id="hero_title" name="hero[title]" 
+                                       value="<?php echo htmlspecialchars($content['hero']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="hero_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="hero_subtitle" name="hero[subtitle]"><?php echo htmlspecialchars($content['hero']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <h3>Section À propos</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="about_title">Titre</label>
+                                <input type="text" class="form-control" id="about_title" name="about[title]" 
+                                       value="<?php echo htmlspecialchars($content['about']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="about_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="about_subtitle" name="about[subtitle]"><?php echo htmlspecialchars($content['about']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Services Section -->
+                        <h3>Section Services</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="services_title">Titre</label>
+                                <input type="text" class="form-control" id="services_title" name="services[title]" 
+                                       value="<?php echo htmlspecialchars($content['services']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="services_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="services_subtitle" name="services[subtitle]"><?php echo htmlspecialchars($content['services']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Team Section -->
+                        <h3>Section Équipe</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="team_title">Titre</label>
+                                <input type="text" class="form-control" id="team_title" name="team[title]" 
+                                       value="<?php echo htmlspecialchars($content['team']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="team_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="team_subtitle" name="team[subtitle]"><?php echo htmlspecialchars($content['team']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- News Section -->
+                        <h3>Section Actualités</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="news_title">Titre</label>
+                                <input type="text" class="form-control" id="news_title" name="news[title]" 
+                                       value="<?php echo htmlspecialchars($content['news']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="news_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="news_subtitle" name="news[subtitle]"><?php echo htmlspecialchars($content['news']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Events Section -->
+                        <h3>Section Événements</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="events_title">Titre</label>
+                                <input type="text" class="form-control" id="events_title" name="events[title]" 
+                                       value="<?php echo htmlspecialchars($content['events']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="events_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="events_subtitle" name="events[subtitle]"><?php echo htmlspecialchars($content['events']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Values Section -->
+                        <h3>Section Valeurs</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="values_title">Titre</label>
+                                <input type="text" class="form-control" id="values_title" name="values[title]" 
+                                       value="<?php echo htmlspecialchars($content['values']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="values_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="values_subtitle" name="values[subtitle]"><?php echo htmlspecialchars($content['values']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Contact Section -->
+                        <h3>Section Contact</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="contact_title">Titre</label>
+                                <input type="text" class="form-control" id="contact_title" name="contact[title]" 
+                                       value="<?php echo htmlspecialchars($content['contact']['title'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_subtitle">Sous-titre</label>
+                                <textarea class="form-control" id="contact_subtitle" name="contact[subtitle]"><?php echo htmlspecialchars($content['contact']['subtitle'] ?? ''); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_address">Adresse</label>
+                                <textarea class="form-control" id="contact_address" name="contact[address]"><?php echo htmlspecialchars($content['contact']['address'] ?? ''); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_phone">Téléphone</label>
+                                <input type="text" class="form-control" id="contact_phone" name="contact[phone]" 
+                                       value="<?php echo htmlspecialchars($content['contact']['phone'] ?? ''); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_email">Email</label>
+                                <input type="email" class="form-control" id="contact_email" name="contact[email]" 
+                                       value="<?php echo htmlspecialchars($content['contact']['email'] ?? ''); ?>">
+                            </div>
+                        </div>
+
+                        <!-- Footer Section -->
+                        <h3>Section Footer</h3>
                         <div class="form-group">
-                            <label class="form-label">Section</label>
-                            <input type="text" id="editSectionDisplay" class="form-control" disabled>
+                            <label for="footer_copyright">Copyright</label>
+                            <input type="text" class="form-control" id="footer_copyright" name="footer[copyright]" 
+                                   value="<?php echo htmlspecialchars($content['footer']['copyright'] ?? ''); ?>">
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Clé</label>
-                            <input type="text" id="editKeyDisplay" class="form-control" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Valeur<span class="text-red-500">*</span></label>
-                            <textarea id="editValue" name="new_value" class="form-control textarea-lg" required></textarea>
-                        </div>
-                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                            <button type="button" class="btn btn-outline" onclick="closeEditModal()">Annuler</button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>Sauvegarder</button>
-                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Sauvegarder les modifications
+                        </button>
                     </form>
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div id="services-tab" class="tab-content">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-gavel"></i>
+                        Gestion des services
+                    </h2>
+                    
+                    <!-- Add Service Form -->
+                    <form action="/admin/content" method="POST" style="margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 10px;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                        <input type="hidden" name="action" value="add_service">
+                        <h3>Ajouter un service</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="service_title">Titre</label>
+                                <input type="text" class="form-control" id="service_title" name="service_title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service_icon">Icône (classe FontAwesome)</label>
+                                <input type="text" class="form-control" id="service_icon" name="service_icon" value="fas fa-gavel">
+                            </div>
+                            <div class="form-group">
+                                <label for="service_color">Couleur</label>
+                                <input type="color" class="color-picker" id="service_color" name="service_color" value="#3b82f6">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_description">Description</label>
+                            <textarea class="form-control" id="service_description" name="service_description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="service_detailed_content">Contenu détaillé</label>
+                            <textarea class="form-control" id="service_detailed_content" name="service_detailed_content" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Ajouter le service
+                        </button>
+                    </form>
+
+                    <!-- Services List -->
+                    <ul class="item-list">
+                        <?php foreach ($services as $service): ?>
+                        <li class="item-card">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-title">
+                                        <i class="<?php echo htmlspecialchars($service['icon']); ?>" style="color: <?php echo htmlspecialchars($service['color']); ?>"></i>
+                                        <?php echo htmlspecialchars($service['title']); ?>
+                                    </h4>
+                                    <p><?php echo htmlspecialchars($service['description']); ?></p>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="editService(<?php echo $service['id']; ?>)">
+                                        <i class="fas fa-edit"></i>
+                                        Modifier
+                                    </button>
+                                    <form action="/admin/content" method="POST" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                        <input type="hidden" name="action" value="delete_service">
+                                        <input type="hidden" name="service_id" value="<?php echo $service['id']; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce service ?')">
+                                            <i class="fas fa-trash"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form (hidden by default) -->
+                            <div id="edit-service-<?php echo $service['id']; ?>" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                                <form action="/admin/content" method="POST">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                    <input type="hidden" name="action" value="update_service">
+                                    <input type="hidden" name="service_id" value="<?php echo $service['id']; ?>">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Titre</label>
+                                            <input type="text" class="form-control" name="service_title" value="<?php echo htmlspecialchars($service['title']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Icône</label>
+                                            <input type="text" class="form-control" name="service_icon" value="<?php echo htmlspecialchars($service['icon']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Couleur</label>
+                                            <input type="color" class="color-picker" name="service_color" value="<?php echo htmlspecialchars($service['color']); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="service_description" required><?php echo htmlspecialchars($service['description']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contenu détaillé</label>
+                                        <textarea class="form-control" name="service_detailed_content" rows="5"><?php echo htmlspecialchars($service['detailed_content'] ?? ''); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="service_is_active" <?php echo $service['is_active'] ? 'checked' : ''; ?>>
+                                            Service actif
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-save"></i>
+                                            Sauvegarder
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('service', <?php echo $service['id']; ?>)">
+                                            Annuler
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Team Tab -->
+            <div id="team-tab" class="tab-content">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Gestion de l'équipe
+                    </h2>
+                    
+                    <!-- Add Team Member Form -->
+                    <form action="/admin/content" method="POST" enctype="multipart/form-data" style="margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 10px;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                        <input type="hidden" name="action" value="add_team_member">
+                        <h3>Ajouter un membre</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="team_name">Nom</label>
+                                <input type="text" class="form-control" id="team_name" name="team_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="team_position">Poste</label>
+                                <input type="text" class="form-control" id="team_position" name="team_position" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="team_description">Description</label>
+                            <textarea class="form-control" id="team_description" name="team_description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="team_image">Photo</label>
+                            <input type="file" class="form-control" id="team_image" name="team_image" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Ajouter le membre
+                        </button>
+                    </form>
+
+                    <!-- Team List -->
+                    <ul class="item-list">
+                        <?php foreach ($team as $member): ?>
+                        <li class="item-card">
+                            <div class="item-header">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <?php if ($member['image_path']): ?>
+                                        <img src="<?php echo htmlspecialchars($member['image_path']); ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                                    <?php endif; ?>
+                                    <div>
+                                        <h4 class="item-title"><?php echo htmlspecialchars($member['name']); ?></h4>
+                                        <p><strong><?php echo htmlspecialchars($member['position']); ?></strong></p>
+                                        <p><?php echo htmlspecialchars($member['description']); ?></p>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="editTeamMember(<?php echo $member['id']; ?>)">
+                                        <i class="fas fa-edit"></i>
+                                        Modifier
+                                    </button>
+                                    <form action="/admin/content" method="POST" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                        <input type="hidden" name="action" value="delete_team_member">
+                                        <input type="hidden" name="team_id" value="<?php echo $member['id']; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce membre ?')">
+                                            <i class="fas fa-trash"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form -->
+                            <div id="edit-team-<?php echo $member['id']; ?>" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                                <form action="/admin/content" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                    <input type="hidden" name="action" value="update_team_member">
+                                    <input type="hidden" name="team_id" value="<?php echo $member['id']; ?>">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Nom</label>
+                                            <input type="text" class="form-control" name="team_name" value="<?php echo htmlspecialchars($member['name']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Poste</label>
+                                            <input type="text" class="form-control" name="team_position" value="<?php echo htmlspecialchars($member['position']); ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="team_description" required><?php echo htmlspecialchars($member['description']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Photo</label>
+                                        <input type="file" class="form-control" name="team_image" accept="image/*">
+                                        <?php if ($member['image_path']): ?>
+                                            <img src="<?php echo htmlspecialchars($member['image_path']); ?>" alt="Current" class="image-preview">
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="team_is_active" <?php echo $member['is_active'] ? 'checked' : ''; ?>>
+                                            Membre actif
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-save"></i>
+                                            Sauvegarder
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('team', <?php echo $member['id']; ?>)">
+                                            Annuler
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- News Tab -->
+            <div id="news-tab" class="tab-content">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-newspaper"></i>
+                        Gestion des actualités
+                    </h2>
+                    
+                    <!-- Add News Form -->
+                    <form action="/admin/content" method="POST" enctype="multipart/form-data" style="margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 10px;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                        <input type="hidden" name="action" value="add_news">
+                        <h3>Ajouter une actualité</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="news_title">Titre</label>
+                                <input type="text" class="form-control" id="news_title" name="news_title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="news_publish_date">Date de publication</label>
+                                <input type="datetime-local" class="form-control" id="news_publish_date" name="news_publish_date" value="<?php echo date('Y-m-d\TH:i'); ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="news_content">Contenu</label>
+                            <textarea class="form-control" id="news_content" name="news_content" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="news_image">Image</label>
+                            <input type="file" class="form-control" id="news_image" name="news_image" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Ajouter l'actualité
+                        </button>
+                    </form>
+
+                    <!-- News List -->
+                    <ul class="item-list">
+                        <?php foreach ($news as $item): ?>
+                        <li class="item-card">
+                            <div class="item-header">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <?php if ($item['image_path']): ?>
+                                        <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                    <?php endif; ?>
+                                    <div>
+                                        <h4 class="item-title"><?php echo htmlspecialchars($item['title']); ?></h4>
+                                        <p><small><?php echo date('d/m/Y H:i', strtotime($item['publish_date'])); ?></small></p>
+                                        <p><?php echo htmlspecialchars(substr($item['content'], 0, 100)) . '...'; ?></p>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="editNews(<?php echo $item['id']; ?>)">
+                                        <i class="fas fa-edit"></i>
+                                        Modifier
+                                    </button>
+                                    <form action="/admin/content" method="POST" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                        <input type="hidden" name="action" value="delete_news">
+                                        <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cette actualité ?')">
+                                            <i class="fas fa-trash"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form -->
+                            <div id="edit-news-<?php echo $item['id']; ?>" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                                <form action="/admin/content" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                    <input type="hidden" name="action" value="update_news">
+                                    <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Titre</label>
+                                            <input type="text" class="form-control" name="news_title" value="<?php echo htmlspecialchars($item['title']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date de publication</label>
+                                            <input type="datetime-local" class="form-control" name="news_publish_date" value="<?php echo date('Y-m-d\TH:i', strtotime($item['publish_date'])); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contenu</label>
+                                        <textarea class="form-control" name="news_content" rows="5" required><?php echo htmlspecialchars($item['content']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control" name="news_image" accept="image/*">
+                                        <?php if ($item['image_path']): ?>
+                                            <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="Current" class="image-preview">
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="news_is_active" <?php echo $item['is_active'] ? 'checked' : ''; ?>>
+                                            Actualité active
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-save"></i>
+                                            Sauvegarder
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('news', <?php echo $item['id']; ?>)">
+                                            Annuler
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Events Tab -->
+            <div id="events-tab" class="tab-content">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-calendar"></i>
+                        Gestion des événements
+                    </h2>
+                    
+                    <!-- Add Event Form -->
+                    <form action="/admin/content" method="POST" enctype="multipart/form-data" style="margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 10px;">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                        <input type="hidden" name="action" value="add_event">
+                        <h3>Ajouter un événement</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="event_title">Titre</label>
+                                <input type="text" class="form-control" id="event_title" name="event_title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event_date">Date de l'événement</label>
+                                <input type="datetime-local" class="form-control" id="event_date" name="event_date" value="<?php echo date('Y-m-d\TH:i'); ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="event_content">Description</label>
+                            <textarea class="form-control" id="event_content" name="event_content" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="event_image">Image</label>
+                            <input type="file" class="form-control" id="event_image" name="event_image" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Ajouter l'événement
+                        </button>
+                    </form>
+
+                    <!-- Events List -->
+                    <ul class="item-list">
+                        <?php foreach ($events as $item): ?>
+                        <li class="item-card">
+                            <div class="item-header">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <?php if ($item['image_path']): ?>
+                                        <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                    <?php endif; ?>
+                                    <div>
+                                        <h4 class="item-title"><?php echo htmlspecialchars($item['title']); ?></h4>
+                                        <p><small><?php echo date('d/m/Y H:i', strtotime($item['event_date'])); ?></small></p>
+                                        <p><?php echo htmlspecialchars(substr($item['content'], 0, 100)) . '...'; ?></p>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="editEvent(<?php echo $item['id']; ?>)">
+                                        <i class="fas fa-edit"></i>
+                                        Modifier
+                                    </button>
+                                    <form action="/admin/content" method="POST" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                        <input type="hidden" name="action" value="delete_event">
+                                        <input type="hidden" name="event_id" value="<?php echo $item['id']; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet événement ?')">
+                                            <i class="fas fa-trash"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form -->
+                            <div id="edit-event-<?php echo $item['id']; ?>" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                                <form action="/admin/content" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                    <input type="hidden" name="action" value="update_event">
+                                    <input type="hidden" name="event_id" value="<?php echo $item['id']; ?>">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Titre</label>
+                                            <input type="text" class="form-control" name="event_title" value="<?php echo htmlspecialchars($item['title']); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date de l'événement</label>
+                                            <input type="datetime-local" class="form-control" name="event_date" value="<?php echo date('Y-m-d\TH:i', strtotime($item['event_date'])); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="event_content" rows="5" required><?php echo htmlspecialchars($item['content']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control" name="event_image" accept="image/*">
+                                        <?php if ($item['image_path']): ?>
+                                            <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="Current" class="image-preview">
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="event_is_active" <?php echo $item['is_active'] ? 'checked' : ''; ?>>
+                                            Événement actif
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-save"></i>
+                                            Sauvegarder
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('event', <?php echo $item['id']; ?>)">
+                                            Annuler
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <!-- Logout Button -->
+    <button class="logout-btn" onclick="logout()" title="Se déconnecter">
+        <i class="fas fa-sign-out-alt"></i>
+    </button>
+
     <script>
-        let reorderModes = { services: false, team: false, news: false, events: false };
-        let sortables = { services: null, team: null, news: null, events: null };
-
-        function openTab(evt, tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        function formatText(command) {
-            document.execCommand(command, false, null);
-            document.activeElement.focus();
-        }
-
-        function insertList(type) {
-            document.execCommand(type === 'ul' ? 'insertUnorderedList' : 'insertOrderedList', false, null);
-            document.activeElement.focus();
-        }
-
-        function insertHeading() {
-            const selection = window.getSelection().toString();
-            document.execCommand(selection ? 'formatBlock' : 'insertHTML', false, selection ? 'h3' : '<h3>Nouveau titre</h3><p></p>');
-            document.activeElement.focus();
-        }
-
-        function previewImage(input, previewId) {
-            const preview = document.getElementById(previewId);
-            const maxSize = 5 * 1024 * 1024;
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                    alert('Seuls les fichiers JPG et PNG sont acceptés.');
-                    input.value = '';
-                    preview.classList.remove('show');
-                    return;
-                }
-                if (file.size > maxSize) {
-                    alert('Le fichier est trop volumineux (max 5MB).');
-                    input.value = '';
-                    preview.classList.remove('show');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = e => {
-                    preview.src = e.target.result;
-                    preview.classList.add('show');
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.classList.remove('show');
+        function logout() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                window.location.href = '/admin/logout';
             }
         }
 
-        function toggleCustomSection(select) {
-            const customGroup = document.getElementById('customSectionGroup');
-            const customInput = document.getElementById('customSectionInput');
-            if (select.value === 'custom') {
-                customGroup.style.display = 'block';
-                customInput.required = true;
-                customInput.addEventListener('input', function() {
-                    select.name = 'temp_section';
-                    if (!document.querySelector('input[name="new_section"]')) {
-                        const hiddenInput = document.createElement('input');
-                        hiddenInput.type = 'hidden';
-                        hiddenInput.name = 'new_section';
-                        select.parentNode.appendChild(hiddenInput);
-                    }
-                    document.querySelector('input[name="new_section"]').value = this.value;
-                });
-            } else {
-                customGroup.style.display = 'none';
-                customInput.required = false;
-                select.name = 'new_section';
-                const hiddenInput = document.querySelector('input[name="new_section"]');
-                if (hiddenInput && hiddenInput !== select) {
-                    hiddenInput.remove();
-                }
-            }
-        }
-
-        function editContent(section, key, value) {
-            document.getElementById('editSection').value = section;
-            document.getElementById('editKey').value = key;
-            document.getElementById('editSectionDisplay').value = section;
-            document.getElementById('editKeyDisplay').value = key;
-            document.getElementById('editValue').value = value;
-            document.getElementById('editModal').style.display = 'flex';
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-        }
-
-        function updateColorPreview(input, id) {
-            const preview = document.getElementById(`color_preview_${id}`);
-            if (preview) preview.style.background = input.value;
-        }
-
-        function updateAddColorPreview(input) {
-            const preview = document.getElementById('add_color_preview');
-            if (preview) preview.style.background = input.value;
-        }
-
-        function saveEditorContent(id, type) {
-            const editor = document.querySelector(`[data-${type}-id="${id}"]`);
-            const hiddenInput = document.getElementById(`${type === 'service' ? 'detailed_content' : (type === 'news' ? 'news_content' : 'event_content')}_${id}`);
-            if (editor && hiddenInput) hiddenInput.value = editor.innerHTML.trim();
-            if (id && type === 'service') {
-                localStorage.removeItem(`service_draft_${id}`);
-            } else if (id && type === 'news') {
-                localStorage.removeItem(`news_draft_${id}`);
-            } else if (id && type === 'event') {
-                localStorage.removeItem(`event_draft_${id}`);
-            }
-        }
-
-        function saveNewEditorContent(type) {
-            let editor = document.getElementById(`new${type === 'service' ? 'Service' : 'News'}Content`);
-            if (type === 'event') editor = document.getElementById('newEventContent');
-            const hiddenInput = document.getElementById(`new_${type === 'service' ? 'detailed_content' : (type === 'news' ? 'news_content' : 'event_content')}`);
-            if (editor && hiddenInput) hiddenInput.value = editor.innerHTML.trim();
-        }
-
-        function toggleReorderMode(type) {
-            reorderModes[type] = !reorderModes[type];
-            const grid = document.getElementById(`${type}Grid`);
-            const dragHandles = grid.querySelectorAll('.drag-handle');
-            const orderIndicators = grid.querySelectorAll('.order-indicator');
-            const button = document.querySelector(`[onclick="toggleReorderMode('${type}')"]`);
-
-            if (reorderModes[type]) {
-                grid.style.opacity = '0.8';
-                dragHandles.forEach(handle => handle.style.display = 'block');
-                orderIndicators.forEach(indicator => indicator.style.display = 'flex');
-                sortables[type] = new Sortable(grid, {
-                    animation: 150,
-                    handle: '.drag-handle',
-                    ghostClass: 'sortable-ghost',
-                    onEnd: () => updateOrder(type)
-                });
-                button.innerHTML = '<i class="fas fa-check"></i>Terminer la réorganisation';
-            } else {
-                grid.style.opacity = '1';
-                dragHandles.forEach(handle => handle.style.display = 'none');
-                orderIndicators.forEach(indicator => indicator.style.display = 'none');
-                if (sortables[type]) {
-                    sortables[type].destroy();
-                    sortables[type] = null;
-                }
-                button.innerHTML = '<i class="fas fa-sort"></i>Mode réorganisation';
-            }
-        }
-
-        function updateOrder(type) {
-            const items = document.querySelectorAll(`#${type}Grid .sortable-item`);
-            const orders = {};
-            items.forEach((item, index) => {
-                orders[item.dataset.id] = index + 1;
-                item.querySelector('.order-indicator').textContent = index + 1;
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
             });
             
-            // Créer un formulaire caché pour soumettre l'ordre
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.style.display = 'none';
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
             
-            const actionInput = document.createElement('input');
-            actionInput.type = 'hidden';
-            actionInput.name = 'action';
-            actionInput.value = `reorder_${type}`;
-            form.appendChild(actionInput);
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
             
-            const ordersInput = document.createElement('input');
-            ordersInput.type = 'hidden';
-            ordersInput.name = 'orders';
-            ordersInput.value = JSON.stringify(orders);
-            form.appendChild(ordersInput);
-            
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = 'csrf_token';
-            csrfInput.value = '<?php echo htmlspecialchars(generateCSRFToken()); ?>';
-            form.appendChild(csrfInput);
-            
-            document.body.appendChild(form);
-            form.submit();
+            // Add active class to clicked tab
+            event.target.classList.add('active');
         }
 
- function setupFormValidation() {
-        const forms = document.querySelectorAll('form');
-        forms.forEach(form => {
-            form.addEventListener('submit', e => {
-                // Correction : ne pas empêcher le submit pour les formulaires sans JS/AJAX
-                if (form.id !== 'add-team-form' && form.id !== 'add-service-form' && form.id !== 'add-news-form' && form.id !== 'add-event-form') return;
+        function editService(id) {
+            document.getElementById('edit-service-' + id).style.display = 'block';
+        }
 
-                e.preventDefault();
-                const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
-                let isValid = true;
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('border-red-500');
-                    } else {
-                        field.classList.remove('border-red-500');
-                    }
-                });
-                    const editor = form.querySelector('.editor-content');
-                    if (editor) {
-                        const hiddenInput = form.querySelector(`input[name="${editor.dataset.serviceId ? 'detailed_content' : (editor.dataset.newsId ? 'content' : '')}"]`) || form.querySelector('input[name="detailed_content"]') || form.querySelector('input[name="content"]');
-                        if (hiddenInput) {
-                            const content = editor.innerHTML.trim();
-                            const isEditorRequired = hiddenInput.name !== 'detailed_content';
-                            let finalContent = content;
-                            if (content === '<p>Contenu à compléter...</p>' || content === '<p>Contenu détaillé à compléter...</p>') {
-                                finalContent = '';
-                            }
-                            if (isEditorRequired && (!finalContent || content === '<p>Contenu à compléter...</p>' || content === '<p>Contenu détaillé à compléter...</p>')) {
-                                isValid = false;
-                                editor.closest('.rich-editor').classList.add('border-red-500');
-                                alert('Le contenu de l\'éditeur ne peut pas être vide ou contenir le texte par défaut.');
-                            } else {
-                                hiddenInput.value = finalContent;
-                                editor.closest('.rich-editor').classList.remove('border-red-500');
-                            }
-                        }
-                    }
-                    if (isValid) {
-                    form.submit(); // Soumettre le formulaire normalement pour recharger la page
-                } else {
-                    alert('Veuillez remplir tous les champs requis.');
-                }
-            });
-        });
-    }
+        function editTeamMember(id) {
+            document.getElementById('edit-team-' + id).style.display = 'block';
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input[name="icon"]').forEach(input => {
-                input.addEventListener('input', e => {
-                    const form = e.target.closest('form');
-                    const preview = form.querySelector('.service-icon i');
-                    if (preview) preview.className = e.target.value;
-                });
-            });
-            document.querySelectorAll('input[name="color"]').forEach(input => {
-                input.addEventListener('input', e => {
-                    const form = e.target.closest('form');
-                    const preview = form.querySelector('.color-preview');
-                    const serviceIcon = form.querySelector('.service-icon');
-                    if (preview) preview.style.background = e.target.value;
-                    if (serviceIcon) serviceIcon.style.background = e.target.value;
-                });
-            });
-            document.querySelectorAll('.editor-content').forEach(editor => {
-                editor.addEventListener('input', function() {
-                    const id = this.dataset.serviceId || this.dataset.newsId || this.dataset.eventId;
-                    let type = this.dataset.serviceId ? 'service' : 'news';
-                    if (this.dataset.eventId) type = 'event';
-                    if (id) {
-                        clearTimeout(window.autoSaveTimeout);
-                        window.autoSaveTimeout = setTimeout(() => {
-                            localStorage.setItem(`${type}_draft_${id}`, this.innerHTML);
-                            console.log(`Brouillon sauvegardé pour ${type} ${id}`);
-                        }, 2000);
-                    }
-                });
-            });
-            document.querySelectorAll('.editor-content').forEach(editor => {
-                const id = editor.dataset.serviceId || editor.dataset.newsId || editor.dataset.eventId;
-                let type = editor.dataset.serviceId ? 'service' : 'news';
-                if (editor.dataset.eventId) type = 'event';
-                if (id) {
-                    const draft = localStorage.getItem(`${type}_draft_${id}`);
-                    if (draft && confirm(`Un brouillon a été trouvé pour ce ${type}. Voulez-vous le restaurer ?`)) {
-                        editor.innerHTML = draft;
-                    }
-                }
-            });
-            document.getElementById('editForm').addEventListener('submit', function(e) {
-                // Ne pas empêcher le submit, laisser le formulaire se soumettre normalement
-                // La page se rechargera automatiquement
-            });
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeEditModal();
-            });
-            document.getElementById('editModal').addEventListener('click', function(e) {
-                if (e.target === this) closeEditModal();
-            });
-            setupFormValidation();
-            console.log('Interface d\'administration avancée chargée avec succès');
-        });
+        function editNews(id) {
+            document.getElementById('edit-news-' + id).style.display = 'block';
+        }
+
+        function editEvent(id) {
+            document.getElementById('edit-event-' + id).style.display = 'block';
+        }
+
+        function cancelEdit(type, id) {
+            document.getElementById('edit-' + type + '-' + id).style.display = 'none';
+        }
     </script>
 </body>
 </html>

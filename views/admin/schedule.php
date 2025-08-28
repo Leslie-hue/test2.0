@@ -248,6 +248,41 @@
             background: #dc2626;
             transform: scale(1.1);
         }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .filter-select, .filter-input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
         @media (max-width: 768px) {
             .admin-layout {
@@ -270,6 +305,10 @@
 
             .main-content {
                 padding: 1rem;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -375,16 +414,219 @@
                 </form>
             </div>
 
+            <!-- Filters Section -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-filter"></i>
+                    Filtrer les créneaux
+                </h2>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="filter_month" class="filter-label">Mois</label>
+                        <select id="filter_month" class="filter-select" onchange="filterSlots()">
+                            <option value="">Tous les mois</option>
+                            <?php for ($i = 1; $i <= 12; $i++): ?>
+                                <option value="<?php echo sprintf('%02d', $i); ?>" <?php echo (date('m') == sprintf('%02d', $i)) ? 'selected' : ''; ?>>
+                                    <?php echo strftime('%B', mktime(0, 0, 0, $i, 1)); ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter_year" class="filter-label">Année</label>
+                        <select id="filter_year" class="filter-select" onchange="filterSlots()">
+                            <?php for ($year = date('Y'); $year <= date('Y') + 2; $year++): ?>
+                                <option value="<?php echo $year; ?>" <?php echo (date('Y') == $year) ? 'selected' : ''; ?>>
+                                    <?php echo $year; ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter_date" class="filter-label">Date spécifique</label>
+                        <input type="date" id="filter_date" class="filter-input" onchange="filterSlots()">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter_status" class="filter-label">Statut</label>
+                        <select id="filter_status" class="filter-select" onchange="filterSlots()">
+                            <option value="">Tous les statuts</option>
+                            <option value="available">Disponible</option>
+                            <option value="booked">Réservé</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <button type="button" class="btn btn-secondary" onclick="resetFilters()">
+                            <i class="fas fa-undo"></i> Réinitialiser
+                        </button>
+                    </div>
+                </div>
+            </div>
             <!-- Slots List -->
             <div class="section-card">
                 <h2 class="section-title">
                     <i class="fas fa-calendar-alt"></i>
-                    Créneaux disponibles
+                    Créneaux disponibles <span id="slots-count">(<?php echo count($slots); ?>)</span>
                 </h2>
-                <?php if (empty($slots)): ?>
-                    <p style="color: #6b7280; text-align: center; padding: 2rem;">Aucun créneau disponible pour le moment.</p>
-                <?php else: ?>
-                    <ul class="slots-list">
+                <div id="slots-container">
+                    <?php if (empty($slots)): ?>
+                        <p id="no-slots-message" style="color: #6b7280; text-align: center; padding: 2rem;">Aucun créneau disponible pour le moment.</p>
+                    <?php else: ?>
+                        <ul class="slots-list" id="slots-list">
+                            <?php foreach ($slots as $slot): ?>
+                                <li class="slot-item" 
+                                    data-date="<?php echo date('Y-m-d', strtotime($slot['start_time'])); ?>"
+                                    data-month="<?php echo date('m', strtotime($slot['start_time'])); ?>"
+                                    data-year="<?php echo date('Y', strtotime($slot['start_time'])); ?>"
+                                    data-status="<?php echo ($slot['is_booked'] ?? false) ? 'booked' : 'available'; ?>">
+                                    <div class="slot-info">
+                                        <h4><?php echo date('d/m/Y H:i', strtotime($slot['start_time'])); ?> - <?php echo date('H:i', strtotime($slot['end_time'])); ?></h4>
+                                        <p>
+                                            <strong>Statut :</strong>
+                                            <span class="status-badge <?php echo ($slot['is_booked'] ?? false) ? 'status-booked' : 'status-available'; ?>">
+                                                <?php echo ($slot['is_booked'] ?? false) ? 'Réservé' : 'Disponible'; ?>
+                                            </span>
+                                        </p>
+                                        <?php if ($slot['appointment_count'] > 0): ?>
+                                            <p><strong>Rendez-vous :</strong> <?php echo $slot['appointment_count']; ?> associé(s)</p>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div>
+                                        <?php if (isset($slot['is_booked']) && !$slot['is_booked']): ?>
+                                            <form action="/admin/schedule" method="POST" style="display: inline;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generateCSRFToken()); ?>">
+                                                <input type="hidden" name="action" value="delete_slot">
+                                                <input type="hidden" name="slot_id" value="<?php echo $slot['id']; ?>">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce créneau ?');">
+                                                    <i class="fas fa-trash"></i>
+                                                    Supprimer
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Logout Button -->
+    <button class="logout-btn" onclick="logout()" title="Se déconnecter">
+        <i class="fas fa-sign-out-alt"></i>
+    </button>
+
+    <script>
+        function logout() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                window.location.href = '/admin/logout';
+            }
+        }
+
+        // Store original slots for filtering
+        const originalSlots = Array.from(document.querySelectorAll('.slot-item'));
+        
+        function filterSlots() {
+            const month = document.getElementById('filter_month').value;
+            const year = document.getElementById('filter_year').value;
+            const date = document.getElementById('filter_date').value;
+            const status = document.getElementById('filter_status').value;
+            
+            let filteredSlots = originalSlots.filter(slot => {
+                const slotMonth = slot.dataset.month;
+                const slotYear = slot.dataset.year;
+                const slotDate = slot.dataset.date;
+                const slotStatus = slot.dataset.status;
+                
+                // Month filter
+                if (month && slotMonth !== month) return false;
+                
+                // Year filter
+                if (year && slotYear !== year) return false;
+                
+                // Specific date filter
+                if (date && slotDate !== date) return false;
+                
+                // Status filter
+                if (status && slotStatus !== status) return false;
+                
+                return true;
+            });
+            
+            // Update display
+            const slotsList = document.getElementById('slots-list');
+            const noSlotsMessage = document.getElementById('no-slots-message');
+            const slotsCount = document.getElementById('slots-count');
+            
+            if (slotsList) {
+                slotsList.innerHTML = '';
+                filteredSlots.forEach(slot => slotsList.appendChild(slot.cloneNode(true)));
+            }
+            
+            // Update count
+            if (slotsCount) {
+                slotsCount.textContent = `(${filteredSlots.length})`;
+            }
+            
+            // Show/hide no results message
+            if (filteredSlots.length === 0) {
+                if (!noSlotsMessage && slotsList) {
+                    const message = document.createElement('p');
+                    message.id = 'no-slots-message';
+                    message.style.cssText = 'color: #6b7280; text-align: center; padding: 2rem;';
+                    message.textContent = 'Aucun créneau ne correspond aux critères sélectionnés.';
+                    slotsList.parentNode.appendChild(message);
+                }
+            } else {
+                const existingMessage = document.getElementById('no-slots-message');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+            }
+        }
+        
+        function resetFilters() {
+            document.getElementById('filter_month').value = '';
+            document.getElementById('filter_year').value = new Date().getFullYear();
+            document.getElementById('filter_date').value = '';
+            document.getElementById('filter_status').value = '';
+            filterSlots();
+        }
+
+        // Gestion de la checkbox "toute la journée"
+        document.addEventListener('DOMContentLoaded', () => {
+            const allDayCheckbox = document.getElementById('all_day');
+            const availabilityTimes = document.getElementById('availability_times');
+            const startTime = document.getElementById('start_time');
+            const endTime = document.getElementById('end_time');
+            const dateInput = document.getElementById('date');
+
+            // Empêcher les dates passées
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            function toggleAvailability() {
+                if (allDayCheckbox.checked) {
+                    availabilityTimes.style.display = 'none';
+                    startTime.required = false;
+                    endTime.required = false;
+                } else {
+                    availabilityTimes.style.display = 'block';
+                    startTime.required = true;
+                    endTime.required = true;
+                }
+            }
+
+            allDayCheckbox.addEventListener('change', toggleAvailability);
+            toggleAvailability(); // Initialisation
+            
+            // Initialize filters
+            filterSlots();
+        });
+    </script>
+</body>
+</html>
                         <?php foreach ($slots as $slot): ?>
                             <li class="slot-item">
                                 <div class="slot-info">
